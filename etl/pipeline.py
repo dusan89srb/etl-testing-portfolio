@@ -109,7 +109,7 @@ def transform(raw):
             "currency": row["currency"],
             "trade_date": row["trade_date"],
             "notional_local": round(quantity * price, 2),
-            "notional_usd": round(quantity * price * fx_rates[row["currency"]], 2),
+            "notional_usd": round(quantity * price / fx_rates[row["currency"]], 2),
         })
     return clean, rejected
 
