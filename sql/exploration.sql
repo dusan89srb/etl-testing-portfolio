@@ -129,7 +129,7 @@ WHERE source_row = 14
   AND trade_id = UPPER(TRIM(trade_id))
   AND ticker   = UPPER(TRIM(ticker));
 
--- Finding: 1 trade (T013, source_row 14) has whitespace/lower case in raw data ('...').
+-- Finding: 1 trade (T013, source_row 14) has whitespace/lower case in raw data ('' t013 ', ' msft ', ' buy ', ' usd '').
 -- ETL normalized it (T013, MSFT) and loaded it into trades_clean; not in trades_rejected. PASS
 -- No NULL trade_ids; ticker NULLs already covered in step 3.
 
@@ -162,7 +162,7 @@ WHERE r.reject_reason = 'INVALID_QUANTITY';
 
 -- Findings summary: 6 rejections, 1 per reason; each matches the rows found in steps 2-6.
 -- No overlap between trades_clean and trades_rejected; no staged row lost. PASS
--- NOTE: INVALID_QUANTITY (source_row N, quantity '...') was not covered by queries 2-7 -> add a test later.
+-- NOTE: INVALID_QUANTITY (source_row 10, quantity '-20') was not covered by queries 2-7 -> add a test later.
 
 -- 9. Invalid quantity (not covered by queries 2-7)
 SELECT source_row, trade_id, quantity
