@@ -1,0 +1,31 @@
+name: ETL data tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run the ETL once (smoke check)
+        run: python -m etl.pipeline
+
+      - name: Run data tests
+        run: pytest --junitxml=reports/junit.xml --html=reports/report.html --self-contained-html
+
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: test-reports
+          path: reports/
